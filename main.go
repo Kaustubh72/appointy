@@ -15,12 +15,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-// GLOBAL VARIABLE
 var Meetings []Meeting
 
 // STRUCTURE FOR DEFINING MEETING AS GIVEN IN PDF
 type Meeting struct {
-	// Id                 string `json:"Id "`
 	IdMeeting          string `json:"IdMeeting"`
 	Title              string `json:"Title"`
 	Participants       string `json:"Participants"`
@@ -42,19 +40,17 @@ func returnMeetingOfId(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Println("Endpoint For: Listing Meeting of id X")
 	id := strings.SplitN(r.URL.Path, "/", 3)[2]
-	// fmt.Println(id[2])
 
 	for i := 0; i < len(Meetings); i++ {
-		if id == Meetings[i].IdMeeting {
-
-			// fmt.Fprintf(w, Meetings[i].Title)
+		if id == Meetings[i].IdMeeting 
+		{
 			json.NewEncoder(w).Encode(Meetings[i])
 		}
 	}
 }
 
 func MeetingOperations(w http.ResponseWriter, r *http.Request) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://kshitij:qwerty123@cluster0.kfjyr.mongodb.net/appointly?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://kaustubh:abc123def@cluster0.kfjyr.mongodb.net/appointly?retryWrites=true&w=majority"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,14 +77,15 @@ func MeetingOperations(w http.ResponseWriter, r *http.Request) {
 		for i := 0; i < len(Meetings); i++ {
 			fmt.Println(Meetings[i].Participants)
 			fmt.Println(presented_query["participant"][0])
-			if presented_query["participant"][0] == "\""+Meetings[i].Participants+"\"" {
-				// fmt.Println("sad")
+			if presented_query["participant"][0] == "\""+Meetings[i].Participants+"\"" 
+			{
 				json.NewEncoder(w).Encode(Meetings[i])
 			}
 		}
 		fmt.Println("THE ROUTE FOR PARTICIPANT CORRECT DONE")
 	}
-	if len(presented_query["start"]) != 0 && len(presented_query["end"]) != 0 {
+	if len(presented_query["start"]) != 0 && len(presented_query["end"]) != 0 
+	{
 		for i := 0; i < len(Meetings); i++ {
 			fmt.Println(presented_query["start"][0])
 			fmt.Println(presented_query["end"][0])
